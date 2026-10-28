@@ -1,0 +1,15 @@
+--- a/crates/sonora/src/main.rs
++++ b/crates/sonora/src/main.rs
+@@ -394 +394 @@
+-            app_id: Some("sonora".into()),
++            app_id: Some("sonora_sonora".into()),
+--- a/crates/state/src/remote/mpris.rs
++++ b/crates/state/src/remote/mpris.rs
+@@ -16 +16 @@
+-const DESKTOP_ENTRY: &str = "sonora";
++const DESKTOP_ENTRY: &str = "sonora_sonora";
+--- a/crates/sonora/src/tray/sni.rs
++++ b/crates/sonora/src/tray/sni.rs
+@@ -10 +10 @@
+-const ICON_NAME: &str = "sonora";
++const ICON_NAME: &str = "sonora_sonora";

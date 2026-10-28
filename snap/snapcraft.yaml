@@ -1,0 +1,98 @@
+name: sonora
+base: core26
+version: '0.45.0'
+title: Sonora
+icon: snap/gui/sonora.png
+summary: Native music streaming and local audio player
+description: |
+  Listen to Apple Music, Spotify, YouTube Music, Deezer, Tidal and
+  Subsonic servers alongside your local music. Sonora includes lyrics,
+  gapless playback, an equalizer, scrobbling and customizable themes.
+license: GPL-3.0-or-later
+grade: stable
+confinement: strict
+website: https://sonorahq.org
+source-code:
+  - https://github.com/sonorahq/sonora
+  - https://github.com/sidalit/sonora-snap
+issues:
+  - https://github.com/sonorahq/sonora/issues
+  - https://github.com/sidalit/sonora-snap/issues
+contact: https://github.com/sidalit/sonora-snap/issues
+
+platforms:
+  amd64:
+  arm64:
+
+slots:
+  mpris:
+    interface: mpris
+
+apps:
+  sonora:
+    command: bin/sonora-launch
+    extensions: [gnome]
+    slots: [mpris]
+    plugs:
+      - audio-playback
+      - browser-support
+      - home
+      - network
+      - network-bind
+      - removable-media
+      - screen-inhibit-control
+    environment:
+      SONORA_WIDEVINE_SKIP_BROWSERS: '1'
+      WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS: '1'
+
+parts:
+  sonora:
+    plugin: rust
+    source: https://github.com/sonorahq/sonora.git
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
+    source-depth: 1
+    rust-channel: '1.98.1'
+    build-environment:
+      - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
+    build-packages:
+      - build-essential
+      - pkg-config
+      - cmake
+      - mold
+      - libasound2-dev
+      - libfontconfig1-dev
+      - libfreetype-dev
+      - libsqlite3-dev
+      - libx11-dev
+      - libxcb1-dev
+      - libxcursor-dev
+      - libxi-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+      - libwayland-dev
+      - libvulkan-dev
+      - libdbus-1-dev
+      - patch
+    stage-packages:
+      - libasound2-plugins
+      - libxkbcommon-x11-0
+    override-pull: |
+      craftctl default
+      patch -p1 < "$CRAFT_PROJECT_DIR/snap/patches/desktop-integration.patch"
+    override-build: |
+      cargo build --locked --release --package sonora
+      install -Dm755 target/release/sonora "$CRAFT_PART_INSTALL/bin/sonora"
+      install -Dm755 "$CRAFT_PROJECT_DIR/snap/local/sonora-launch" \
+        "$CRAFT_PART_INSTALL/bin/sonora-launch"
+      install -Dm644 "$CRAFT_PROJECT_DIR/snap/local/asound.conf" \
+        "$CRAFT_PART_INSTALL/etc/alsa/alsa.conf"
+      install -Dm644 "$CRAFT_PROJECT_DIR/snap/gui/sonora.png" \
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/sonora_sonora.png"
+      install -Dm644 COPYING "$CRAFT_PART_INSTALL/usr/share/doc/sonora/COPYING"
+      install -Dm644 THIRD-PARTY.md "$CRAFT_PART_INSTALL/usr/share/doc/sonora/THIRD-PARTY.md"
+      install -Dm644 assets/fonts/LICENSE.txt "$CRAFT_PART_INSTALL/usr/share/doc/sonora/LICENSE.Inter"
+      install -Dm644 assets/icons/LICENSE "$CRAFT_PART_INSTALL/usr/share/doc/sonora/icons/LICENSE"
+      for license in assets/icons/*/LICENSE; do
+        install -Dm644 "$license" \
+          "$CRAFT_PART_INSTALL/usr/share/doc/sonora/icons/LICENSE.$(basename "$(dirname "$license")")"
+      done
