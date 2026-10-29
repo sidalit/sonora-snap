@@ -74,7 +74,6 @@ parts:
       - libdbus-1-dev
       - patch
     stage-packages:
-      - libasound2-plugins
       - libxkbcommon-x11-0
     override-pull: |
       craftctl default
@@ -96,3 +95,10 @@ parts:
         install -Dm644 "$license" \
           "$CRAFT_PART_INSTALL/usr/share/doc/sonora/icons/LICENSE.$(basename "$(dirname "$license")")"
       done
+
+  alsa-pulse:
+    plugin: nil
+    stage-packages: [libasound2-plugins]
+    stage:
+      - usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/alsa-lib/*pulse.so
+      - usr/share/doc/libasound2-plugins/copyright
