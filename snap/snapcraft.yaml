@@ -1,6 +1,6 @@
 name: sonora
 base: core26
-version: '0.45.0'
+version: '0.46.0'
 title: Sonora
 icon: snap/gui/sonora.png
 summary: Native music streaming and local audio player
