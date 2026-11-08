@@ -72,12 +72,8 @@ parts:
       - libwayland-dev
       - libvulkan-dev
       - libdbus-1-dev
-      - patch
     stage-packages:
       - libxkbcommon-x11-0
-    override-pull: |
-      craftctl default
-      patch -p1 < "$CRAFT_PROJECT_DIR/snap/patches/desktop-integration.patch"
     override-build: |
       cargo build --locked --release --package sonora
       install -Dm755 target/release/sonora "$CRAFT_PART_INSTALL/bin/sonora"
@@ -86,7 +82,7 @@ parts:
       install -Dm644 "$CRAFT_PROJECT_DIR/snap/local/asound.conf" \
         "$CRAFT_PART_INSTALL/etc/alsa/alsa.conf"
       install -Dm644 "$CRAFT_PROJECT_DIR/snap/gui/sonora.png" \
-        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/sonora_sonora.png"
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/256x256/apps/sonora.png"
       install -Dm644 COPYING "$CRAFT_PART_INSTALL/usr/share/doc/sonora/COPYING"
       install -Dm644 THIRD-PARTY.md "$CRAFT_PART_INSTALL/usr/share/doc/sonora/THIRD-PARTY.md"
       install -Dm644 assets/fonts/LICENSE.txt "$CRAFT_PART_INSTALL/usr/share/doc/sonora/LICENSE.Inter"
