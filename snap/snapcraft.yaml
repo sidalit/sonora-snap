@@ -94,7 +94,8 @@ parts:
 
   alsa-pulse:
     plugin: nil
-    stage-packages: [libasound2-plugins]
+    stage-packages:
+      - libasound2-plugins
     stage:
       - usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/alsa-lib/*pulse.so
       - usr/share/doc/libasound2-plugins/copyright
