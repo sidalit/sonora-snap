@@ -44,6 +44,7 @@ apps:
     environment:
       SONORA_WIDEVINE_SKIP_BROWSERS: '1'
       WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS: '1'
+      XDG_STATE_HOME: $SNAP_USER_DATA/.local/state
 
 parts:
   sonora:
