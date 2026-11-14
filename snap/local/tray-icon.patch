@@ -1,0 +1,13 @@
+--- a/crates/sonora/src/tray/sni.rs
++++ b/crates/sonora/src/tray/sni.rs
+@@ -216,7 +216,9 @@
+ /// such as Quickshell draw a placeholder for a name they cannot find rather than the pixmap.
+ fn icon_name(sandboxed: bool) -> String {
+-    let packaged = sandboxed || std::env::var_os("APPIMAGE").is_some();
++    let packaged = sandboxed
++        || std::env::var_os("APPIMAGE").is_some()
++        || std::env::var_os("SNAP").is_some();
+     match packaged {
+         true => String::new(),
+         false => ICON_NAME.to_owned(),
+     }
