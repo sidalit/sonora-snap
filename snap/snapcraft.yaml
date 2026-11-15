@@ -52,7 +52,7 @@ parts:
     source: https://github.com/sonorahq/sonora.git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
-    rust-channel: '1.98.1'
+    rust-channel: stable
     build-environment:
       - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
     build-packages:
